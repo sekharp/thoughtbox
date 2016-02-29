@@ -16,7 +16,7 @@ function renderLink(link) {
     "<b id='link-title' contentEditable='true'>" +
     link.title +
     "</b><p id='link-url' contentEditable='true'>" +
-    url +
+    link.url +
     "</p><p id='link-quality" +
     link.id +
     "'>Quality: " +
@@ -40,7 +40,7 @@ function getlinks() {
   $.getJSON('api/links.json')
     .then(function(links){
       $.each(links, function(index, link){
-        renderlink(link);
+        renderLink(link);
     });
   });
 }

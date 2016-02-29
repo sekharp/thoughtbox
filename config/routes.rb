@@ -5,4 +5,8 @@ Rails.application.routes.draw do
   post '/login', to: "sessions#create"
   delete '/logout', to: "sessions#destroy"
   resources :links, only: [:index]
+
+  namespace :api do
+    resources :links
+  end
 end
