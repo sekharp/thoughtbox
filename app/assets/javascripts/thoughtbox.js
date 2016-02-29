@@ -60,7 +60,7 @@ function createlink() {
     $('#link-url').val('');
 
     $.post("api/links.json", linkParams, $(this).serialize())
-      .done(renderlink);
+      .done(renderLink);
   });
 }
 
