@@ -23,10 +23,9 @@ function renderLink(link) {
     link.read +
     "<p><button id='change-link-status" +
     link.id +
-    "' name='button-fetch' class='btn btn-default btn-xs'>X</button>" +
+    "' name='button-fetch' class='btn btn-default btn-xs'>Change Status</button>" +
     "</p>" +
     "<button id='delete-link' name='button-fetch' class='btn btn-default btn-xs'>Delete</button>" +
-    "  <button id='edit-link' name='button-fetch' class='btn btn-default btn-xs'>Edit</button>" +
     "</div>"
   );
     changeLinkStatus(link.id);
@@ -78,17 +77,10 @@ function changeLinkStatus(id) {
   $('#change-link-status' + id).on('click', function(){
     event.preventDefault();
 
-    var newStatus = false
-
     $.getJSON('/api/links/' + id, function(link){
-      console.log(link.read)
       if (link.read === false){
           var newStatus = true;
-        } else {
-          var newStatus = false;
-        }
-      });
-      console.log(newStatus)
+        } else { var newStatus = false; }
 
       $.ajax({
         type: 'PUT',
@@ -100,6 +92,7 @@ function changeLinkStatus(id) {
           $('#link-quality' + id).html("Read: " + newStatus);
         }
       });
+    });
   });
 }
 
