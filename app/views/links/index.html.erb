@@ -1,2 +1,26 @@
 Link Index (User Show Page) <br><br>
-<%= link_to "Logout", logout_path , method: :delete %>
+<%= link_to "Logout", logout_path , method: :delete %> <br><br>
+
+<div class="row">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-8">
+    <div class="link-form-group">
+      Link Title: <input class="form-control" type="text" id="link-title">
+      Link URL: <input class="form-control" type="text" id="link-body">
+    </div>
+    <input class="btn btn-default pull-right" id="create-link" type="button" name="submit" value="Create Link">
+  </div>
+  <div class="col-sm-2"></div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-4">
+      <h3>Latest Links</h3>
+      <div id="latest-links">
+      </div>
+    </div>
+    <div class="col-sm-2"></div>
+  </div>
+</div>
