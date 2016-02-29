@@ -1,7 +1,7 @@
 $(document).ready(function() {
-  getlinks();
-  createlink();
-  deletelink();
+  getLinks();
+  createLink();
+  deleteLink();
   editTitle();
   editUrl();
 });
@@ -19,24 +19,20 @@ function renderLink(link) {
     link.url +
     "</p><p id='link-quality" +
     link.id +
-    "'>Quality: " +
-    link.quality +
-    "<p><button id='upvote-link" +
+    "'>Read: " +
+    link.read +
+    "<p><button id='change-link-status" +
     link.id +
-    "' name='button-fetch' class='btn btn-default btn-xs'>+</button>" +
-    "  <button id='downvote-link" +
-    link.id +
-    "' name='button-fetch' class='btn btn-default btn-xs'>-</button>" +
+    "' name='button-fetch' class='btn btn-default btn-xs'>X</button>" +
     "</p>" +
     "<button id='delete-link' name='button-fetch' class='btn btn-default btn-xs'>Delete</button>" +
     "  <button id='edit-link' name='button-fetch' class='btn btn-default btn-xs'>Edit</button>" +
     "</div>"
   );
-    upvotelink(link.id);
-    downvotelink(link.id);
+    changeLinkStatus(link.id);
 }
 
-function getlinks() {
+function getLinks() {
   $.getJSON('api/links.json')
     .then(function(links){
       $.each(links, function(index, link){
@@ -45,7 +41,7 @@ function getlinks() {
   });
 }
 
-function createlink() {
+function createLink() {
   $('#create-link').on('click', function(){
     var linkTitle  = $('#link-title').val();
     var linkurl   = $('#link-url').val();
@@ -64,7 +60,7 @@ function createlink() {
   });
 }
 
-function deletelink() {
+function deleteLink() {
   $('#latest-links').delegate('#delete-link', 'click', function() {
     var $link = $(this).closest('.link');
 
@@ -78,53 +74,32 @@ function deletelink() {
   });
 }
 
-function upvotelink(id) {
-  $('#upvote-link' + id).on('click', function(){
+function changeLinkStatus(id) {
+  $('#change-link-status' + id).on('click', function(){
     event.preventDefault();
 
+    var newStatus = false
+
     $.getJSON('/api/links/' + id, function(link){
-      var newQuality = function(){
-        if (link.quality === 'swill'){
-          return 'plausible';
-        } else { return 'genius'; }
-      };
+      console.log(link.read)
+      if (link.read === false){
+          var newStatus = true;
+        } else {
+          var newStatus = false;
+        }
+      });
+      console.log(newStatus)
 
       $.ajax({
         type: 'PUT',
         url: '/api/links/' + id + '.json',
         data: {
-          link: {quality: newQuality}
+          link: {read: newStatus}
         },
         success: function(link){
-          $('#link-quality' + id).html(newQuality);
+          $('#link-quality' + id).html("Read: " + newStatus);
         }
       });
-    });
-  });
-}
-
-function downvotelink(id) {
-  $('#downvote-link' + id).on('click', function(){
-    event.preventDefault();
-
-    $.getJSON('/api/links/' + id, function(link){
-      var newQuality = function(){
-        if (link.quality === 'genius'){
-          return 'plausible';
-        } else { return 'swill'; }
-      };
-
-      $.ajax({
-        type: 'PUT',
-        url: '/api/links/' + id + '.json',
-        data: {
-          link: {quality: newQuality}
-        },
-        success: function(link){
-          $('#link-quality' + id).html(newQuality);
-        }
-      });
-    });
   });
 }
 
