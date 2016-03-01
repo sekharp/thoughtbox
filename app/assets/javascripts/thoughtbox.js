@@ -4,6 +4,7 @@ $(document).ready(function() {
   deleteLink();
   editTitle();
   editUrl();
+  searchLinks();
 });
 
 function renderLink(link) {
@@ -140,4 +141,17 @@ function editUrl() {
       });
     }
   });
+}
+
+function searchLinks() {
+  $("#filter").keyup(function(){
+		var filter = $(this).val();
+		$("#latest-links").children().each(function(){
+			if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+				$(this).fadeOut();
+			} else {
+				$(this).show();
+			}
+		});
+	});
 }
