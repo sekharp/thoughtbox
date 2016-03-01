@@ -17,4 +17,10 @@ class CreateLinkTest < ActionDispatch::IntegrationTest
     fill_in 'link-url', with: 'http://www.reddit.com'
     click_button 'Create Link'
   end
+
+  test 'unauthenticated user visit link index page' do
+    visit links_path
+
+    assert login_path, current_path
+  end
 end
